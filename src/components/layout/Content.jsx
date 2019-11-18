@@ -6,7 +6,7 @@ import InfoCard2 from '../cards/InfoCard2';
 import LineGraphCard from '../cards/LineGraphCard';
 import PieGraphCard from '../cards/PieGraphCard';
 
-import modal from '../modals/viewDetails';
+import modal from '../modals/viewDetailModal';
 
 class Content extends Component {
   buildInfoCard() {
@@ -142,10 +142,10 @@ class Content extends Component {
               </div>
             </div>
           </div>
-          <MyVerticallyCenteredModal
+          {/* <modal
             show={modalShow}
             onHide={() => setModalShow(false)}
-          />
+          /> */}
         </div>
       );
     }
