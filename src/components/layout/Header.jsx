@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import { Navbar, Nav, Form, FormControl, Button, NavDropdown } from 'react-bootstrap';
 
-import { itemsFetchData } from '../../actions/';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpider, faSearch } from '@fortawesome/free-solid-svg-icons'
+
 import { DEFAULT_URL } from '../../constants'; // we need to get our api url
+import { itemsFetchData, showModal } from '../../actions/';
 
 class Header extends Component {
 
@@ -24,11 +27,10 @@ class Header extends Component {
 
   handleClick() {
     if (this.isValidURL(this.crawlUrlRef.current.value)) {
-      console.log('valid')
       this.props.fetchData(this.crawlUrlRef.current.value);
     }
     else {
-      console.log('invalid url')
+      this.props.showModal({ visible: true, modalType: 'errorMsg', message: `${this.crawlUrlRef.current.value} is an Invalid Url` });
     }
   }
 
@@ -42,7 +44,9 @@ class Header extends Component {
     return (
       <div className='headerBar'>
         <Navbar bg="dark" variant="dark" >
-          <Navbar.Brand href="#home">Web Crawler 1.0</Navbar.Brand>
+          <Navbar.Brand href="#home">
+            <FontAwesomeIcon className='fa-rotate-45' icon={faSpider} /> Web Crawler 1.0
+          </Navbar.Brand>
           <Nav className="mr-auto"></Nav>
           <Form inline>
             <FormControl
@@ -57,8 +61,9 @@ class Header extends Component {
               onClick={this.handleClick.bind(this)}
               ref={this.crawlBtnRef}
             >
-              Crawl
-          </Button>
+              <span style={{ marginRight: '10px' }}>Crawl</span>
+              <FontAwesomeIcon icon={faSearch} />
+            </Button>
           </Form>
         </Navbar>
       </div>
@@ -74,9 +79,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  console.log(dispatch)
   return {
-    fetchData: (url) => dispatch(itemsFetchData(url))
+    fetchData: (url) => dispatch(itemsFetchData(url)),
+    showModal: (msg) => dispatch(showModal(msg))
   };
 };
 
